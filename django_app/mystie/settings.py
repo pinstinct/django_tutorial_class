@@ -13,7 +13,20 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+# BASE_DIR 장고 앱을 가르킴
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# 서버 실행시 출력
+# /Users/limhm/fastcampus/projects/django_tutorial/django_app
+print(BASE_DIR)
+
+# 템플릿 디렉토리 추가
+# 기본적으로 polls/templates/polls/를 찾기 때문에 알려줘야 함
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+
+# /Users/limhm/fastcampus/projects/django_tutorial/django_app/templates
+print(TEMPLATES_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -59,7 +72,10 @@ ROOT_URLCONF = 'mystie.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # 템플릿 검색 경로 추가
+            TEMPLATES_DIR,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
