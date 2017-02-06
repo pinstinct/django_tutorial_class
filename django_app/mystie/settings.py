@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # polls app이 장고에서 관리되야 한다고 알려줌
+    'polls.apps.PollsConfig',
 ]
 
 MIDDLEWARE = [
