@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Question
+from .models import Question, Choice
 
 
 def index(request):
@@ -36,12 +36,44 @@ def index(request):
 
 
 def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
+    """
+    request.method == 'POST'일 때, 전달받은 POST객체에서
+        'choice' 키 값을 HttpResponse로 되돌려준다.
+        'choice' 키로 전달된 Choice 객체의 id를 이용해서
+        해당 Choice 객체의 votes 값을 1 늘려주고 데이터베이스 업데이트
+        완료되면 다시 Question detail 페이지로 이동
+
+        1. request.Post['choice']의 값(Choice객체의 ID)을 이용해서 Choice 객체를 가져온다
+        2. 해당 객체의 votes 값을 늘려주고, 데이터베이스에 변경사항을 업데이트
+        3. redirect, question_id를 이용해서 detail 페이지로 다시 돌아간다
+    아닐 경우 polls/detail.html을 render
+    """
+    if request.method == 'POST':
+        # 1번
+        choice_id = request.POST['choice']
+        choice = Choice.objects.get(id=choice_id)
+
+        # 2번번
+        choice.votes += 1
+        choice.save()
+
+        # 3번
+        return redirect('polls:detail', question_id=question_id)
+    else:
+        question = Question.objects.get(id=question_id)
+        context = {
+            'question': question,
+        }
+        return render(request, 'polls/resutls.html', context)
 
 
 def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
+    # 인자로 주어진 question_id에 해당하는 Question 객체를 context에 담아 render에 보낸다
+    question = Question.objects.get(id=question_id)
+    context = {
+        'question': question,
+    }
+    return render(request, 'polls/results/html', context)
 
 
 def vote(request, question_id):
