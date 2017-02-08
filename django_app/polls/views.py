@@ -16,7 +16,7 @@ def index(request):
     #
     # # 템플릿 파일에 전달할 context 객체를 정의
     # # 'latest_question_list' 키에 값을 할당
-    # # 해당 키로 템플릿에서 사용
+    # # 해당 키를 템플릿에서 사용
     # context = {'latest_question_list': latest_question_list, }
     #
     # # 템플릿에 context와 request 객체를 사용해 render한 결과를 반환

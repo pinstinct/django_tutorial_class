@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views
 
+app_name = 'polls'
 urlpatterns = [
     # 아무것도 입력되지 않았을 경우, views.index 호출
     # ex: /polls/

@@ -16,9 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from . import views
+
 urlpatterns = [
+    url(r'^$', views.index, name='index'),
+
     # polls/일 경우, polls.urls을 호출
     url(r'^polls/', include('polls.urls')),
-
     url(r'^admin/', admin.site.urls),
 ]
