@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.utils.datastructures import MultiValueDictKeyError
+
 from .models import Question, Choice
 
 
@@ -50,21 +52,26 @@ def detail(request, question_id):
     """
     if request.method == 'POST':
         # 1번
-        choice_id = request.POST['choice']
-        choice = Choice.objects.get(id=choice_id)
+        try:
+            choice_id = request.POST['choice']
+            choice = Choice.objects.get(id=choice_id)
+
+        except MultiValueDictKeyError:
+            return HttpResponse('test')
 
         # 2번번
         choice.votes += 1
         choice.save()
 
         # 3번
-        return redirect('polls:detail', question_id=question_id)
+        return redirect('polls:results', question_id=question_id)
+
     else:
         question = Question.objects.get(id=question_id)
         context = {
             'question': question,
         }
-        return render(request, 'polls/resutls.html', context)
+        return render(request, 'polls/detail.html', context)
 
 
 def results(request, question_id):
@@ -73,7 +80,9 @@ def results(request, question_id):
     context = {
         'question': question,
     }
-    return render(request, 'polls/results/html', context)
+    return render(request, 'polls/results.html', context)
+
+
 
 
 def vote(request, question_id):

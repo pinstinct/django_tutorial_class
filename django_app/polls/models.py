@@ -15,7 +15,8 @@ class Question(models.Model):
         최근에 발행된 Question 인가 판단해주는 메서드
         :return: Boolean
         """
-        # 자신의 발행일자 >= 현재시각 - 하루만큼의 시간간        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        # 자신의 발행일자 >= 현재시각 - 하루만큼의 시간간
+        # return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
 
 class Choice(models.Model):
